@@ -1,0 +1,17 @@
+{
+  "name": "sip",
+  "version": "1.0.0",
+  "description": "sip client will use for aws ecs",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+    "dependencies": {
+    "aws-sdk": "^2.675.0",
+    "drachtio": "^4.1.16",
+    "drachtio-srf": "^4.4.31",
+    "jssip": "^3.4.4",
+    "nodemon": "^2.0.3",
+    "uuid": "^8.0.0"
+  }
+}
