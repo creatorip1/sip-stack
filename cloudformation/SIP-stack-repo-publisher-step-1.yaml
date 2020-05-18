@@ -1,0 +1,136 @@
+AWSTemplateFormatVersion: 2010-09-09
+Metadata:
+  'AWS::CloudFormation::Designer':
+    3d21f8fc-1fe8-4243-9b3b-5fda427cdf60:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 50
+        'y': 20
+      z: 0
+      embeds: []
+      dependson:
+        - e294bfec-289b-4bf6-ba60-83360f707992
+    fab90b69-0bff-450a-b9fa-f106ffba80a7:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 50
+        'y': 140
+      z: 0
+      embeds: []
+      dependson:
+        - e294bfec-289b-4bf6-ba60-83360f707992
+    db9137a8-37ef-4b4f-b8e6-d5fd6f4e64a4:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 240
+        'y': 140
+      z: 0
+      embeds: []
+    eee20ecd-1b29-4810-8767-7ae9c43114db:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: -140
+        'y': 220
+      z: 0
+      embeds: []
+    e294bfec-289b-4bf6-ba60-83360f707992:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: -10
+        'y': 240
+      z: 0
+      embeds: []
+      isassociatedwith:
+        - eee20ecd-1b29-4810-8767-7ae9c43114db
+    3c5105a9-1a09-4eb4-80c9-fea82adb6869:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: -180
+        'y': 60
+      z: 0
+      embeds: []
+Parameters:
+  UserName:
+    Type: String
+    AllowedPattern: '[\w+=,.@-]+'
+  SipMiddlewareRepositoryName:
+    Type: String
+    AllowedPattern: '[\w+=,.@-]+'
+    Default: 'sip-middleware-repo'
+  UserPath:
+    Type: String
+    AllowedPattern: \/+(.*)
+    Default: /
+Resources:
+  SipMiddlewareApp:
+    Type: 'AWS::ECR::Repository'
+    Properties:
+      RepositoryName: !Ref SipMiddlewareRepositoryName
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 3d21f8fc-1fe8-4243-9b3b-5fda427cdf60
+    DependsOn: SipRepoPublisher
+  SipRepoAccessKey:
+    Type: 'AWS::IAM::AccessKey'
+    Properties:
+      UserName: !Ref SipRepoPublisher
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: db9137a8-37ef-4b4f-b8e6-d5fd6f4e64a4
+  SipRepoPublisherGroup:
+    Type: 'AWS::IAM::Group'
+    Properties:
+      GroupName: SipRepoPublishGroup
+      ManagedPolicyArns:
+        - 'arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryFullAccess'
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: eee20ecd-1b29-4810-8767-7ae9c43114db
+  SipRepoPublisher:
+    Type: 'AWS::IAM::User'
+    Properties:
+      UserName: !Ref UserName
+      Groups:
+        - !Ref SipRepoPublisherGroup
+      Path: !Ref UserPath
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: e294bfec-289b-4bf6-ba60-83360f707992
+  DynamodbTable:
+    Type: 'AWS::DynamoDB::Table'
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: SourceIp
+          AttributeType: S
+      KeySchema:
+        - AttributeName: SourceIp
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: '5'
+        WriteCapacityUnits: '5'
+      TableName: SipHeadersTable
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 3c5105a9-1a09-4eb4-80c9-fea82adb6869
+Outputs:
+  RepoForSipMiddlewareApp:
+    Description: Repository path to push Sip Middleware container
+    Value: !GetAtt SipMiddlewareApp.Arn
+  RepoUserAccesskeyID:
+    Description: Access key id for pushing data to container Repository
+    Value: !Ref SipRepoAccessKey
+  RepoUserSecretKey:
+    Description: SecretkeyId for Pushing data to Repository
+    Value: !GetAtt SipRepoAccessKey.SecretAccessKey
