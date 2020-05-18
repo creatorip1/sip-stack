@@ -2,6 +2,8 @@ const Srf = require('drachtio-srf');
 const srf = new Srf();
 var AWS = require("aws-sdk");
 var constants = require('./constants');
+const { v4: uuidv4 } = require('uuid');
+
 const registrationParser = require('drachtio-mw-registration-parser');
 srf.use((req, res, next) => {
   next();
