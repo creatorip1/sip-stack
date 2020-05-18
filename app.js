@@ -86,20 +86,20 @@ srf.options(async (req, res) => {
 async function getHeaderValueFromDB(SourceIp) {
   try {
     var result;
-    var headerString="Option Response";
     let docClient = new AWS.DynamoDB.DocumentClient();
     params = {
       TableName: constants.TABLE_NAME,
       Key: {
-        "SourceIp": SourceIp,
-        "HeaderValue": headerString,
+        "SourceIp": SourceIp
       }
     };
     var data = await docClient.get(params).promise();
     if (data && data.Item) {
-      result=data.Item;
-    }else{
-      result=await putItem(SourceIp,headerString);
+      result = data.Item;
+    } else {
+      await putItem(SourceIp);
+      data = await docClient.get(params).promise();
+      result = data.Item;
     }
     return result;
   } catch (error) {
@@ -108,24 +108,18 @@ async function getHeaderValueFromDB(SourceIp) {
   return result;
 }
 
-
-async function putItem(SourceIp,headerString) {
+async function putItem(SourceIp) {
   try {
     let docClient = new AWS.DynamoDB.DocumentClient();
     var params = {
       TableName: constants.TABLE_NAME,
       Item: {
         "SourceIp": SourceIp,
-        "HeaderValue": headerString,
+        "HeaderValue": uuidv4(),
       }
     };
-    var data=docClient.put(params).promise();  
-    if(data && data.Item){
-      return data.Item
-    }
+    await docClient.put(params).promise();
   } catch (error) {
-    console.log(`Error while putting item to the dynamodb : ${error}` );
+    console.log(`Error while putting item to the dynamodb : ${error}`);
   }
-  return null;
 }
-
