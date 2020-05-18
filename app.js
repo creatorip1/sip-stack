@@ -68,7 +68,7 @@ srf.invite((req, res) => {
   console.log("Invite Response : " + JSON.stringify(res));
   res.send(486, 'So sorry, busy right now', {
     headers: {
-      'X-Custom-Header': 'because why not?'
+      'X-Freelancer-Project': 'Server busy'
     }
   });
 });
