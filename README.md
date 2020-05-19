@@ -2,7 +2,7 @@
 
 Following are the steps to setting up the sip stack 
 
-### Setup SIP stack repository 
+## Setup SIP Middleware repository 
 Use this [Cloudformation template](/cloudformation/SIP-stack-repo-publisher-step-1.yaml) to create SIP middleware app repo. 
 
 Following are prerequisites for creating a stack. 
