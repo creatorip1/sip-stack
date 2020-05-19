@@ -32,6 +32,7 @@ Following are commnds to push docker image to the reposotory from your computer.
 ``` docker tag sip-middleware-app:latest {{REPO - PATH}}:{{REPO- NAME}}:latest ```
 
 3. Push the image to AWS repository and copy the image link  *{{REPO - PATH}}:{{REPO- NAME}}:latest*.
+``` docker push *{{REPO - PATH}}:{{REPO- NAME}}:latest* ```
 
 ## SIP Stack with sip server and middleware
 
