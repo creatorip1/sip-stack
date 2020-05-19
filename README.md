@@ -17,7 +17,7 @@ There are three outputs of the stack.
    * *SecretKey*
 2. Repository path as variable *RepoForSipMiddlewareApp*
 
-Download the sip-stack repo and check the [constants](constants.js) based on region you are creating the stack. Build the Docker using docker build. 
+Download the sip-stack repo and check the [constants](constants.js) based on region you are creating the stack. Build the Docker using docker build.  If you are using *us-west-2* zone you can continue with next step without any changes.  
 
 ``` docker build -t sip-middleware-app . ```
 
