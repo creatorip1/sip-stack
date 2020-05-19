@@ -5,9 +5,9 @@ Following are the steps to setting up the sip stack
 ### Setup SIP stack repository 
 Use this [Cloudformation template](/cloudformation/SIP-stack-repo-publisher-step-1.yaml) to create SIP middleware app repo. 
 
-Following are prerequisite for creating a stack. 
+Following are prerequisites for creating a stack. 
  1. Admin Cloud formation role 
- 2. Select IAM resouce compatibility check box while running stack
+ 2. Select IAM resource compatibility check box while running stack
 
 There are three outputs of the stack. 
 
@@ -36,7 +36,7 @@ Following are commands to push docker image to the repository from your computer
 
 ## SIP Stack with sip server and middleware
 
-For creating the SIP stack along with middleware and SIP server using [cloudfomration template](cloudformation/Sip-stack-vpc-publisher-step-2.yaml).
+For creating the SIP stack along with middleware and SIP server using [cloudformation template](cloudformation/Sip-stack-vpc-publisher-step-2.yaml).
 
 Following are the prerequisite of creating before creating this stack
 -  Cloudformation stack role with admin rights
@@ -50,4 +50,4 @@ Output of this stack is one SIP server EIP which has following ports open
 >  6060 - UDP Allowed to be connected from internet
 >  9022 - TCP Allowed to connect from VPC CIDR. 
 
-The middleware connects to the SIP server using internal DNS hosted zone. There is no autocaling configured for this project because for larger system we will chave to consider sychronization and a SIP Proxy which is notified by the DNS changes to accept connection on autoscaling. 
+The middleware connects to the SIP server using internal DNS hosted zone. There is no autocaling configured for this project because for larger system you will have to consider synchronization and a SIP Proxy which is notified by the DNS changes to accept connection on autoscaling. 
